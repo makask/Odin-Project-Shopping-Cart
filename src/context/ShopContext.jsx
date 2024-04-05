@@ -8,24 +8,40 @@ function ShopContextProvider(props){
     const[error, setError] = useState(null);
     const[loading, setLoading] = useState(true);
     const[cart, setCart] = useState({});
+    const[selectedProduct, setSelectedProduct] = useState(null);
     
     function getDefaultCart(data){
         let cart = {}
-        for(let i = 1; i <= data.length; i++){
-            cart[i] = 0;
+        if(data){
+            for(let i = 0; i < data.length; i++){
+                cart[data[i].id]=0;
+            }
         }
         return cart;
     }
     
-    async function getData(){
+    async function getDefaultData(){
         try{
-            const response = await fetch(`https://fakestoreapi.com/products?limit=5`);
+            const response = await fetch(`https://fakestoreapi.com/products?limit=20`);
             if(response.status === 200){
                 setLoading(false);
             }
             const data = await response.json();
             setData(data);
             setCart(getDefaultCart(data));
+        }catch(err){
+            setError(err);
+        }
+    }
+
+    async function getData(){
+        try{
+            const response = await fetch(`https://fakestoreapi.com/products?limit=20`);
+            if(response.status === 200){
+                setLoading(false);
+            }
+            const data = await response.json();
+            setData(data);
         }catch(err){
             setError(err);
         }
@@ -58,10 +74,29 @@ function ShopContextProvider(props){
         return Number.parseFloat(total).toFixed(2);
     }
 
-    useEffect(()=>{
-        getData();    
-    },[]);
+    function getProductById(id){
+        if(data){
+            const item = data.find((product) => product.id === Number(id));
+            return item;
+        }
+    }
 
+    async function getProductsByCategory(category){
+        if(category==="all-products"){
+            getData();
+            return;
+        } 
+        if(category!=="all-products"){
+            fetch(`https://fakestoreapi.com/products/category/${category}`)
+            .then(res=>res.json())
+            .then(json=>setData(json))
+        }
+    }
+    
+    useEffect(()=>{
+        getDefaultData();    
+    },[]);
+    
     const contextValue = { 
         data, 
         error, 
@@ -70,7 +105,11 @@ function ShopContextProvider(props){
         addToCart, 
         removeFromCart, 
         updateCartItemAmount, 
-        getTotalAmount
+        getTotalAmount,
+        getProductsByCategory,
+        getProductById,
+        selectedProduct,
+        setSelectedProduct
     }
 
     return <ShopContext.Provider value={contextValue}>{props.children}</ShopContext.Provider>

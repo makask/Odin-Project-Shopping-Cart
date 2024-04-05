@@ -1,18 +1,24 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../../context/ShopContext";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-function Product({ id, title, price, description, image }){
+function Product({ id, title, price, category, image }){
 
-    //const { id, title, price, description, image } = data;
-    const { cart, addToCart, removeFromCart, updateCartItemAmount } = useContext(ShopContext);
+    const { cart, addToCart, removeFromCart, updateCartItemAmount, setSelectedProduct, getProductById } = useContext(ShopContext);
 
-    // id title price description image
+    let navigate = useNavigate();
+    function navToProductPage(id){
+        navigate(`/product/:${id}`);
+        setSelectedProduct(getProductById(id));
+    }
+
     return(
-        <div>
+        <div className="bg-white">
+            <img className="h-48" src={image} onClick={()=>navToProductPage(id)}></img>
             <h1>{title}</h1>
             <p>{price}</p>
-            <p>{description}</p>
-            <img className="h-48" src={image}></img>
+            <p>{category}</p>
             <div className="flex gap-2">
                 <button onClick={()=>addToCart(id)}>+</button>
                 <input onChange={(event)=>updateCartItemAmount(id, Number(event.target.value))} type="number" className="w-20" min="0" value={cart[id]}></input>
@@ -22,4 +28,13 @@ function Product({ id, title, price, description, image }){
     )
 }
 
+Product.propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    price: PropTypes.number,
+    category: PropTypes.string,
+    image: PropTypes.string
+}
+
 export default Product;
+
