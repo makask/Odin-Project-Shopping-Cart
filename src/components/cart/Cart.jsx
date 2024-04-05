@@ -10,24 +10,23 @@ function Cart(){
     const total = getTotalAmount();
 
     return(
-        <div>
+        <div className="flex-col bg-gradient-to-r from-sky-500 to-indigo-500 min-h-screen">
             <Header />
-            <h1>CART</h1>
-            {
-                data?.map((product) => {
-                    if(cart[product.id] > 0){
-                        return <CartItem 
-                            key={product.id}
-                            id={product.id}
-                            title={product.title}
-                            price={product.price}
-                            description={product.description}
-                            image={product.image}
-                        />
-                    }
-                })
-            }
-            <h1>Total: ${total}</h1>
+                {
+                    data?.map((product) => {
+                        if(cart[product.id] > 0){
+                            return <CartItem 
+                                key={product.id}
+                                id={product.id}
+                                title={product.title}
+                                price={product.price}
+                                description={product.description}
+                                image={product.image}
+                            />
+                        }
+                    })
+                }
+            <h1 className="text-white float-right mr-10 mt-6 text-xl">Total: ${total}</h1>
         </div>
     );
 }

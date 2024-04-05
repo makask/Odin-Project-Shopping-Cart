@@ -16,9 +16,21 @@ function Shop(){
     }
 
     return(
-        <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
+        <div className="bg-gradient-to-r from-sky-500 to-indigo-500 min-h-screen">
             <Header></Header>
-            <div className="flex">
+            <div className="mt-4 pb-6 mb-8 flex justify-center">
+                <form>
+                    <label htmlFor="categories" className="text-white">Choose a category: </label>
+                    <select name="categories" onChange={handleChange}>
+                        <option value="all-products">All products</option>
+                        <option value="men's clothing">Men's clothing</option>
+                        <option value="women's clothing">Women's clothing</option>
+                        <option value="jewelery">Jewelery</option>
+                        <option value="electronics">Electronics</option>
+                    </select>
+                </form>
+            </div>
+            <div className="flex gap-6 flex-wrap justify-center">
             {
                 data?.map(product => <Product 
                    key={product.id}
@@ -30,18 +42,6 @@ function Shop(){
                 />)
                 
             }
-            </div>
-            <div>
-                <form>
-                    <label htmlFor="categories">Choose a category: </label>
-                    <select name="categories" onChange={handleChange}>
-                        <option value="all-products">All products</option>
-                        <option value="men's clothing">Men's clothing</option>
-                        <option value="women's clothing">Women's clothing</option>
-                        <option value="jewelery">Jewelery</option>
-                        <option value="electronics">Electronics</option>
-                    </select>
-                </form>
             </div>
         </div>
     );

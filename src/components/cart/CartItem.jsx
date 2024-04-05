@@ -6,13 +6,13 @@ function CartItem({id, title, price, description, image }){
     const { cart, addToCart, removeFromCart, updateCartItemAmount } = useContext(ShopContext);
 
     return(
-        <div>
+        <div className="dark:bg-gray-800 dark:border-gray-700 text-white m-4 flex items-center gap-4 p-6 rounded-lg justify-between">
+            <img className="h-20 rounded-lg" src={image}></img>
             <p>Title: {title}</p>
             <p>Price: {price}</p>
-            <img className="h-20" src={image}></img>
-            <div className="flex gap-2">
+            <div className="flex gap-5">
                 <button onClick={()=>addToCart(id)}>+</button>
-                <input onChange={(event)=>updateCartItemAmount(id, Number(event.target.value))} type="number" className="w-20" min="0" value={cart[id]}></input>
+                <h1>{cart[id]}</h1>
                 <button onClick={()=>removeFromCart(id)}>-</button>
             </div>
         </div>
