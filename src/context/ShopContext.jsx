@@ -120,7 +120,8 @@ function ShopContextProvider(props){
         getProductById,
         selectedProduct,
         setSelectedProduct,
-        cartItemCount
+        cartItemCount,
+        getData
     }
 
     return <ShopContext.Provider value={contextValue}>{props.children}</ShopContext.Provider>

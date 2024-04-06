@@ -6,24 +6,25 @@ import { useNavigate } from "react-router-dom";
 
 function Header(){
 
-    const { cartItemCount } = useContext(ShopContext);
+    const { cartItemCount, getData } = useContext(ShopContext);
 
     let navigate = useNavigate();
 
-    function handleNavigate(){
-        navigate(`/cart`);
+    function handleNavigate(route){
+        navigate(route);
+        getData();
     }
 
     return(
         <div className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white">
             <div className="p-4 flex items-center hover:opacity-75">
-                <Link to="/shop" className="text-3xl">SuperStore 9000</Link>
+                <Link to="/shop" className="text-3xl" onClick={()=>handleNavigate(`/shop`)}>SuperStore 9000</Link>
                 <div className="ml-auto">
                     {
                         cartItemCount > 0 && <h1 className="text-2xl">{cartItemCount}</h1>
                     }
                 </div>
-                <ShoppingCart onClick={handleNavigate} className="text-4xl hover:opacity-75 cursor-pointer"></ShoppingCart>
+                <ShoppingCart onClick={()=>handleNavigate(`/cart`)} className="text-4xl hover:opacity-75 cursor-pointer"></ShoppingCart>
             </div>
         </div>
 
